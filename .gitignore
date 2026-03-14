@@ -1,0 +1,10 @@
+a# AI and Mobile App (Excluded from GitHub)
+smart-parking-ai/
+myexpoapp/
+
+# Basic ignores
+node_modules/
+.env
+.DS_Store
+dist/
+build/
