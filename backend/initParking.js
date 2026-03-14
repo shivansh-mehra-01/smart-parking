@@ -8,7 +8,6 @@ mongoose.connect(process.env.MONGO_URI);
 
 const parkings = [
   {
-    _id: "PARKING_1",
     name: "MP Nagar Parking 1",
     address: "MP Nagar Bhopal MP",
     latitude: 23.2317869,
@@ -17,7 +16,6 @@ const parkings = [
     availableSlots: 100,
   },
   {
-    _id: "PARKING_2",
     name: "MP Nagar Parking 2",
     address: "MP Nagar Bhopal MP",
     latitude: 23.2318487,
@@ -26,7 +24,6 @@ const parkings = [
     availableSlots: 200,
   },
   {
-    _id: "PARKING_3",
     name: "MP Nagar Parking 3",
     address: "MP Nagar Bhopal MP",
     latitude: 23.2240375,
@@ -35,7 +32,6 @@ const parkings = [
     availableSlots: 300,
   },
   {
-    _id: "PARKING_4",
     name: "MP Nagar Parking 4",
     address: "MP Nagar Bhopal MP",
     latitude: 23.2237618,
@@ -48,8 +44,9 @@ const parkings = [
 async function insertParkingData() {
   try {
     await Parking.deleteMany({});
-    await Parking.insertMany(parkings);
-    console.log("Parkings are inserted");
+    const docs = await Parking.insertMany(parkings);
+    console.log("Parkings are inserted with Auto IDs:");
+    docs.forEach(d => console.log(`${d.name}: ${d._id}`));
   } catch (error) {
     console.error(error.message);
   } finally {
