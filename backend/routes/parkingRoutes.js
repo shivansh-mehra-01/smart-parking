@@ -1,11 +1,14 @@
 const express = require("express");
-const router = express.Router();;
-const { getParkings, saveVehicleEntry, saveVehicleExit } = require("../controllers/parkingController.js");
+const router = express.Router();
+const { getParkings, updateParkingSlots, saveVehicleEntry, saveVehicleExit, verifyDeviceKey } = require("../controllers/parkingController.js");
 
 router.get("/parkings", getParkings);
+router.post("/verify-device", verifyDeviceKey);
 
-router.post("/vehicle-entry", saveVehicleEntry);   // car enter hone par
+router.put("/parkings/:id/slots", updateParkingSlots);
 
-router.post("/vehicle-exit", saveVehicleExit);     // car exit hone par
+router.post("/vehicle-entry", saveVehicleEntry);
+
+router.post("/vehicle-exit", saveVehicleExit);
 
 module.exports = router;
