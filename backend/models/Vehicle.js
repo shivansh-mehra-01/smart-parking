@@ -24,8 +24,15 @@ const vehicleSchema = new mongoose.Schema({
     exitTime: {
         type: Date,
         default: null
-    }
+    },
 
-});
+    plate_text: String,
+    entry_time: String,
+    exit_time: String,
+    status: { type: String, default: "inside" },
+    source: String,
+    duration_mins: Number
+
+}, { collection: 'parking_log' });
 
 module.exports = mongoose.model("Vehicle", vehicleSchema);
