@@ -1,11 +1,11 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/notifications')
+    api.get('/notifications')
       .then(res => setNotifications(res.data))
       .catch(err => console.error(err));
   }, []);

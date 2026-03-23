@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function Pricing() {
   const [plans, setPlans] = useState([]);
@@ -7,7 +7,7 @@ export default function Pricing() {
   const [editForm, setEditForm] = useState(null);
 
   const fetchPricing = () => {
-    axios.get('http://localhost:3000/api/pricing')
+    api.get('/pricing')
       .then(res => setPlans(res.data))
       .catch(err => console.error(err));
   };
@@ -23,7 +23,7 @@ export default function Pricing() {
 
   const handleSave = async (id) => {
     try {
-      await axios.put(`http://localhost:3000/api/pricing/${id}`, {
+      await api.put(`/pricing/${id}`, {
         type: editForm.type,
         rate: editForm.rate,
         description: editForm.description,

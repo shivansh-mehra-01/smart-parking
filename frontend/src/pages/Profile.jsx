@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function Profile() {
   const [profile, setProfile] = useState(null);
@@ -7,7 +7,7 @@ export default function Profile() {
   const [editForm, setEditForm] = useState(null);
 
   const fetchProfile = () => {
-    axios.get('http://localhost:3000/api/profile')
+    api.get('/profile')
       .then(res => setProfile(res.data))
       .catch(err => console.error(err));
   };
@@ -24,7 +24,7 @@ export default function Profile() {
   const handleSave = async (e) => {
     e.preventDefault();
     try {
-      await axios.put('http://localhost:3000/api/profile', {
+      await api.put('/profile', {
         name: editForm.name,
         address: editForm.address,
         totalSlots: editForm.totalSlots,

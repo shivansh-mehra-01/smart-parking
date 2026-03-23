@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function Login({ onLogin }) {
   const [parkings, setParkings] = useState([]);
@@ -9,7 +9,7 @@ export default function Login({ onLogin }) {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/auth/parkings')
+    api.get('/auth/parkings')
       .then(res => {
         setParkings(res.data);
         if (res.data.length > 0) setSelectedParking(res.data[0]);
@@ -26,7 +26,7 @@ export default function Login({ onLogin }) {
     setError('');
     
     try {
-      await axios.post('http://localhost:3000/api/auth/login', {
+      await api.post('/auth/login', {
         parking_name: selectedParking,
         device_key: deviceKey
       });

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function LiveOccupancy() {
   const [sessions, setSessions] = useState([]);
@@ -8,7 +8,7 @@ export default function LiveOccupancy() {
 
   const fetchLive = async () => {
     try {
-      const res = await axios.get('http://localhost:3000/api/occupancy/live');
+      const res = await api.get('/occupancy/live');
       setSessions(res.data.sessions || []);
       setTotalCapacity(res.data.total_capacity || 120);
       setLoading(false);

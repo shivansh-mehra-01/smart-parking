@@ -1,6 +1,6 @@
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../api';
 
 export default function Layout() {
   const navigate = useNavigate();
@@ -8,7 +8,7 @@ export default function Layout() {
   const [appContext, setAppContext] = useState({ name: 'Alex Chen', role: 'Station Lead', facility_name: 'Central Station Parking' });
 
   useEffect(() => {
-    axios.get('http://localhost:3000/api/profile')
+    api.get('/profile')
       .then(res => setAppContext(res.data))
       .catch(err => console.error(err));
   }, []);
