@@ -15,23 +15,9 @@ mongoose.connect(process.env.MONGO_URI).then(() => {
 
 const app = express();
 
-// Allow requests from the Netlify frontend (set FRONTEND_URL in Render env vars)
-const allowedOrigins = [
-    process.env.FRONTEND_URL,       // e.g. https://your-app.netlify.app
-    "http://localhost:5173",        // Vite local dev
-    "http://localhost:3000",        // fallback
-].filter(Boolean);
-
+// Open CORS — allows all origins (safe for this parking management API)
 app.use(cors({
-    origin: function (origin, callback) {
-        // Allow requests with no origin (mobile apps, curl, Postman)
-        if (!origin) return callback(null, true);
-        if (allowedOrigins.includes(origin)) {
-            callback(null, true);
-        } else {
-            callback(new Error(`CORS policy: Origin ${origin} not allowed`));
-        }
-    },
+    origin: true,
     credentials: true,
 }));
 
