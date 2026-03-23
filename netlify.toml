@@ -8,7 +8,7 @@
   NPM_VERSION = "10"
   # Override VITE_API_URL in the Netlify dashboard → Site settings → Environment variables
   # Set it to your Render backend URL: https://your-backend.onrender.com/api
-  VITE_API_URL = "https://your-backend.onrender.com/api"
+  VITE_API_URL = "https://smart-parking-usm7.onrender.com/api"
 
 # SPA fallback: send all routes to index.html so React Router works on page refresh
 [[redirects]]
