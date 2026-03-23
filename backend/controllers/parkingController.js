@@ -43,12 +43,17 @@ const saveVehicleEntry = async (req, res) => {
         }
 
         // Vehicle entry record save karo
+        const dateNow = new Date();
         const newVehicle = new Vehicle({
             plateNumber,
             camera,
             parkingId,
-            entryTime: new Date(),
-            exitTime: null
+            entryTime: dateNow,
+            exitTime: null,
+            plate_text: plateNumber,
+            entry_time: dateNow.toISOString(),
+            status: "inside",
+            source: camera || "camera_0"
         });
         await newVehicle.save();
 
@@ -91,7 +96,12 @@ const saveVehicleExit = async (req, res) => {
         }
 
         // exitTime set karo
-        vehicle.exitTime = new Date();
+        const exitDate = new Date();
+        vehicle.exitTime = exitDate;
+        vehicle.exit_time = exitDate.toISOString();
+        vehicle.status = "exited";
+        const entryDate = vehicle.entryTime || new Date(vehicle.entry_time);
+        vehicle.duration_mins = parseFloat(((exitDate - entryDate) / 60000).toFixed(2));
         await vehicle.save();
 
         // Parking find karo aur slot +1 karo
@@ -116,5 +126,25 @@ const saveVehicleExit = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
+// PUT /api/vehicle/:id - update plate text (for auto-correction)
+const updateVehiclePlate = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { plateNumber } = req.body;
 
-module.exports = { getParkings, saveVehicleEntry, saveVehicleExit };
+        const vehicle = await Vehicle.findById(id);
+        if (!vehicle) {
+            return res.status(404).json({ error: "Vehicle not found" });
+        }
+
+        vehicle.plateNumber = plateNumber;
+        await vehicle.save();
+
+        res.json({ message: "Vehicle plate updated successfully", vehicle });
+    } catch (error) {
+        console.log("Error updating vehicle plate:", error);
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { getParkings, saveVehicleEntry, saveVehicleExit, updateVehiclePlate };

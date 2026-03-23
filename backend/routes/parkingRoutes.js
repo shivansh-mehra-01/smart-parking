@@ -1,11 +1,34 @@
 const express = require("express");
-const router = express.Router();;
-const { getParkings, saveVehicleEntry, saveVehicleExit } = require("../controllers/parkingController.js");
+const router = express.Router();
+const { getParkings, saveVehicleEntry, saveVehicleExit, updateVehiclePlate } = require("../controllers/parkingController.js");
+const { 
+    getDashboardStats, getLiveOccupancy, getBookingsToday, exportBookings,
+    getAuthParkings, authLogin, getPricing, updatePricing,
+    getProfile, updateProfile, getNotifications 
+} = require("../controllers/apiController.js");
 
+// --- Parking and Vehicle Routes ---
 router.get("/parkings", getParkings);
+router.post("/vehicle-entry", saveVehicleEntry);
+router.post("/vehicle-exit", saveVehicleExit);
+router.put("/vehicle/:id", updateVehiclePlate);   // OCR auto-correct 
 
-router.post("/vehicle-entry", saveVehicleEntry);   // car enter hone par
+// --- Frontend API Routes ---
+router.get("/dashboard/stats", getDashboardStats);
+router.get("/occupancy/live", getLiveOccupancy);
 
-router.post("/vehicle-exit", saveVehicleExit);     // car exit hone par
+router.get("/bookings/today", getBookingsToday);
+router.get("/bookings/export", exportBookings);
+
+router.get("/auth/parkings", getAuthParkings);
+router.post("/auth/login", authLogin);
+
+router.get("/pricing", getPricing);
+router.put("/pricing/:plan_id", updatePricing);
+
+router.get("/profile", getProfile);
+router.put("/profile", updateProfile);
+
+router.get("/notifications", getNotifications);
 
 module.exports = router;
