@@ -1,11 +1,46 @@
 const Parking = require("../models/Parking.js");
 const Vehicle = require("../models/Vehicle.js");
 
-// GET /api/parkings — saari parkings fetch karo
 const getParkings = async (req, res) => {
     try {
         const parkings = await Parking.find();
         res.json(parkings);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+const verifyDeviceKey = async (req, res) => {
+    try {
+        const { id, deviceKey } = req.body;
+        const parking = await Parking.findById(id);
+        if (!parking) {
+             return res.status(404).json({ error: "Parking not found" });
+        }
+        if (parking.deviceKey !== deviceKey) {
+             return res.status(401).json({ error: "Invalid Device Key" });
+        }
+        res.json({ message: "Device Verified successfully", success: true });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// PUT /api/parkings/:id/slots — manual slot override
+const updateParkingSlots = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { availableSlots } = req.body;
+        
+        const parking = await Parking.findById(id);
+        if (!parking) {
+            return res.status(404).json({ error: "Parking not found" });
+        }
+        
+        parking.availableSlots = availableSlots;
+        await parking.save();
+        
+        res.json({ message: "Slots updated successfully", parking });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -147,4 +182,4 @@ const updateVehiclePlate = async (req, res) => {
     }
 };
 
-module.exports = { getParkings, saveVehicleEntry, saveVehicleExit, updateVehiclePlate };
+module.exports = { getParkings, updateParkingSlots, saveVehicleEntry, saveVehicleExit, verifyDeviceKey, updateVehiclePlate };

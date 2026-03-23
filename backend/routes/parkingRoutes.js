@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { getParkings, saveVehicleEntry, saveVehicleExit, updateVehiclePlate } = require("../controllers/parkingController.js");
+const { getParkings, updateParkingSlots, saveVehicleEntry, saveVehicleExit, verifyDeviceKey, updateVehiclePlate } = require("../controllers/parkingController.js");
 const { 
     getDashboardStats, getLiveOccupancy, getBookingsToday, exportBookings,
     getAuthParkings, authLogin, getPricing, updatePricing,
@@ -9,6 +9,9 @@ const {
 
 // --- Parking and Vehicle Routes ---
 router.get("/parkings", getParkings);
+
+router.post("/verify-device", verifyDeviceKey);
+router.put("/parkings/:id/slots", updateParkingSlots);
 router.post("/vehicle-entry", saveVehicleEntry);
 router.post("/vehicle-exit", saveVehicleExit);
 router.put("/vehicle/:id", updateVehiclePlate);   // OCR auto-correct 
