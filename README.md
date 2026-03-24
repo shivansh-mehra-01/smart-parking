@@ -202,8 +202,7 @@ User-facing application.
 
 ## 🧠 Author
 
-Ramsagar Jaiswal 
-My lovely son Shivansh Mehra 
+Shivansh Mehra 
 
 ---
 
